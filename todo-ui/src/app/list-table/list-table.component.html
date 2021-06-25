@@ -1,0 +1,55 @@
+<table class="table table-hover ">
+  <thead>
+  <tr>
+    <th>Task</th>
+    <th>Description</th>
+    <th>Due By</th>
+    <th>Remind me</th>
+    <th style="width: 15%" class="text-center">Status</th>
+    <th style="width: 15%">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let item of allCompletedTaskList">
+    <tr *ngIf="!idEdit || idEdit !== item.id">
+      <td>{{ item.title }}</td>
+      <td>{{ item.description }}</td>
+      <td>
+        <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time"
+               (dateTimeInput)="OnDateChange(item)"
+               [(ngModel)]="item.scheduled_at">
+        <owl-date-time #dt1></owl-date-time>
+      </td>
+      <td>
+        <input [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date Time"
+               (dateTimeInput)="setReminder(item)" [readonly]="true"
+               [(ngModel)]="item.remind_at">
+        <owl-date-time #dt2></owl-date-time>
+      </td>
+      <input type="checkbox" [checked]="item.is_completed" (change)="onItemChange(item.id,$event)">
+      <td>
+        <button type="button" class="btn btn-warning btn-sm" (click)="clickEdit(item)">Edit</button>
+        <button type="button" class="btn btn-danger btn-sm" (click)="deleteTaskFn(item.id)">Delete</button>
+      </td>
+    </tr>
+
+    <tr *ngIf="idEdit && idEdit == item.id">
+
+      <td>
+        <input type="text" class="form-control" [(ngModel)]="item.title">
+      </td>
+      <td>
+        <input type="text" class="form-control" [(ngModel)]="item.description">
+      </td>
+      <td>
+        <button (click)="idEdit = null" type="button" class="btn btn-default btn-sm">Cancel</button>
+        <button [disabled]="item.title.length === 0" (click)="editSubmit(item)" type="button"
+                class="btn btn-success btn-sm">Save
+        </button>
+      </td>
+
+    </tr>
+
+  </ng-container>
+  </tbody>
+</table>

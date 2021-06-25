@@ -1,0 +1,40 @@
+<div *ngIf="!isCreate" class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+  <div class="create-header">
+    <h6>Create task</h6>
+  </div>
+  <button (click)="isCreate = true" type="button" class="btn btn-info btn-block marginB10">Add Task</button>
+</div>
+<div *ngIf="isCreate" class="row" style="margin-bottom: 10px">
+  <div class="col-md-5">
+    <form class="form-inline" (ngSubmit)="onSubmit(form)" #form="ngForm">
+      <div class="form-group mt-4">
+        <input
+          ngModel
+          required
+          name="title"
+          type="text"
+          class="form-control"
+          [ngClass]="{error: isSubmit && txtTitle.invalid}"
+          #txtTitle="ngModel"
+          placeholder="Task Title"/>
+
+      </div>
+      <div class="form-group mt-4">
+        <input
+          ngModel
+          required
+          name="description"
+          type="text"
+          class="form-control"
+          [ngClass]="{error: isSubmit && txtDesc.invalid}"
+          #txtDesc="ngModel"
+          placeholder="Task Description"/>
+      </div>
+      <div class="button-bottom mt-4">
+        <button type="button" type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" (click)="isCreate = false" class="btn btn-default">Cancel</button>
+      </div>
+
+    </form>
+  </div>
+</div>
